@@ -46,7 +46,7 @@ public:
                         return "";
                     
                     else
-                        cout << "happ";
+                       
                         return result;
                         
                 }
