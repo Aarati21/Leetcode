@@ -33,26 +33,40 @@ Output: 1->1->2->3->4->4->5->6
  */
 class Solution {
 public:
-    ListNode* mergetwoLists(ListNode* l1, ListNode* l2) {
-        ListNode *result = nullptr;
-        
-        
+    ListNode* mergetwoLists(ListNode* l1, ListNode* l2) {     
+    ListNode start(0);
+    ListNode * newl = &start;
+    while ((l1 != nullptr) || (l2 != nullptr)){
         if (l1 == nullptr){
-            return l2;
+            int val = l2->val;
+            newl->next = new ListNode(val);
+            newl = newl->next;
+            l2 = l2->next;
         }
-        if (l2 == nullptr){
-            return l1;
+       
+        else if (l2 == nullptr){
+            int val = l1->val;
+            newl->next = new ListNode(val);
+            newl = newl->next;
+            l1 = l1->next;
         }
-        if (l1->val < l2->val){
-            result = l1;
-            result->next = mergetwoLists(l1->next, l2);
+        else if (l1->val < l2->val){
+            int val = l1->val;
+            newl->next = new ListNode(val);
+            newl = newl->next;
+            l1 = l1->next;
         }
-        else{
-            result = l2;
-            result->next = mergetwoLists(l1, l2->next);
+       
+        else {
+            int val = l2->val;
+            newl->next = new ListNode(val);
+            newl = newl->next;
+            l2 = l2->next;
         }
-        return result;
-        
+       
+    }
+    return start.next;
+   
     }
     
     ListNode* mergeKLists(vector<ListNode*>& lists) {
@@ -60,15 +74,17 @@ public:
         int i = 0;
         vector<ListNode*> stack{lists};
         
+        if (stack.size() == 0) {
+            return nullptr;
+        }
+        
         while(i < (int)stack.size() - 1) {
             stack.push_back(mergetwoLists(stack[i], stack[i + 1]));
             i += 2;
         }
         
-        if (stack.size() == 0) {
-            return nullptr;
-        }
         
         return stack[stack.size() - 1];
+       
     }
 };
